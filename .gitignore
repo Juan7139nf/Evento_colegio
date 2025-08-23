@@ -1,11 +1,6 @@
-# Visual Studio
 .vs/
 bin/
 obj/
 *.user
 *.suo
-*.vscode/
-
-# Archivos de paquetes
-*.nupkg
 *.log
