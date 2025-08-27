@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Inscripcion>> ObtenerList();
         Task<Inscripcion?> ObtenerId(Guid id);
         Task Crear(Inscripcion inscripcion);
-        Task<bool> Actualizar(Inscripcion inscripcion);
+        Task Actualizar(Inscripcion inscripcion);
     }
 }

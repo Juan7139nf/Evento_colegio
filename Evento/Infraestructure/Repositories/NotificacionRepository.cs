@@ -42,12 +42,11 @@ namespace Infraestructure.Repositories
             _context.notificaciones.Add(notificacion);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Notificacion notificacion)
+        public async Task Actualizar(Notificacion notificacion)
         {
             var notificacionExiste = await _context.notificaciones.FirstOrDefaultAsync(n => n.Id == notificacion.Id);
             if (notificacionExiste == null)
-                return false;
+                throw new Exception("Notificación no encontrada");
 
             notificacionExiste.Tipo = notificacion.Tipo;
             notificacionExiste.Estado = notificacion.Estado;
@@ -55,7 +54,6 @@ namespace Infraestructure.Repositories
             notificacionExiste.Id_Evento = notificacion.Id_Evento;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

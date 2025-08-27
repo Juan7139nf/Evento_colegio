@@ -34,12 +34,11 @@ namespace Infraestructure.Repositories
             _context.eventos.Add(evento);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Evento evento)
+        public async Task Actualizar(Evento evento)
         {
             var eventoExiste = await _context.eventos.FirstOrDefaultAsync(e => e.Id == evento.Id);
             if (eventoExiste == null)
-                return false;
+                throw new Exception("Evento no encontrado");
 
             eventoExiste.Nombre_Evento = evento.Nombre_Evento;
             eventoExiste.Tipo = evento.Tipo;
@@ -51,7 +50,6 @@ namespace Infraestructure.Repositories
             eventoExiste.ArchivosJson = evento.ArchivosJson;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

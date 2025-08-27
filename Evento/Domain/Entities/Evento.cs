@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -9,6 +10,7 @@ namespace Domain.Entities
 {
     public class Evento
     {
+        [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         public required string Nombre_Evento { get; set; }
         public required string Tipo { get; set; }

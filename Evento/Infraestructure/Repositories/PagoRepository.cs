@@ -40,12 +40,11 @@ namespace Infraestructure.Repositories
             _context.pagos.Add(pago);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Pago pago)
+        public async Task Actualizar(Pago pago)
         {
             var pagoExiste = await _context.pagos.FirstOrDefaultAsync(p => p.Id == pago.Id);
             if (pagoExiste == null)
-                return false;
+                throw new Exception("Pago no encontrado");
 
             pagoExiste.Monto = pago.Monto;
             pagoExiste.Fecha_Pago = pago.Fecha_Pago;
@@ -54,7 +53,6 @@ namespace Infraestructure.Repositories
             pagoExiste.Id_Inscripcion = pago.Id_Inscripcion;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Notificacion>> ObtenerList();
         Task<Notificacion?> ObtenerId(Guid id);
         Task Crear(Notificacion notificacion);
-        Task<bool> Actualizar(Notificacion notificacion);
+        Task Actualizar(Notificacion notificacion);
     }
 }

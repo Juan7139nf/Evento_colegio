@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Usuario>> ObtenerList();
         Task<Usuario?> ObtenerId(Guid id);
         Task Crear(Usuario usuario);
-        Task<bool> Actualizar(Usuario usuario);
+        Task Actualizar(Usuario usuario);
     }
 }

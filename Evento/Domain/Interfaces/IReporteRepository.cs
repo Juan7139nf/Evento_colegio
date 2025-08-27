@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Reporte>> ObtenerList();
         Task<Reporte?> ObtenerId(Guid id);
         Task Crear(Reporte reporte);
-        Task<bool> Actualizar(Reporte reporte);
+        Task Actualizar(Reporte reporte);
     }
 }

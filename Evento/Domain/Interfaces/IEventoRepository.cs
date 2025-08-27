@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Evento>> ObtenerList();
         Task<Evento?> ObtenerId(Guid id);
         Task Crear(Evento evento);
-        Task<bool> Actualizar(Evento evento);
+        Task Actualizar(Evento evento);
     }
 }

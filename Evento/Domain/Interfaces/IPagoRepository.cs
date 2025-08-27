@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Pago>> ObtenerList();
         Task<Pago?> ObtenerId(Guid id);
         Task Crear(Pago pago);
-        Task<bool> Actualizar(Pago pago);
+        Task Actualizar(Pago pago);
     }
 }

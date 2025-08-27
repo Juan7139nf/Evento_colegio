@@ -42,19 +42,18 @@ namespace Infraestructure.Repositories
             _context.inscripciones.Add(inscripcion);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Inscripcion inscripcion)
+        
+        public async Task Actualizar(Inscripcion inscripcion)
         {
             var inscripcionExiste = await _context.inscripciones.FirstOrDefaultAsync(i => i.Id == inscripcion.Id);
             if (inscripcionExiste == null)
-                return false;
+                throw new Exception("Inscripción no encontrada");
 
             inscripcionExiste.Estado = inscripcion.Estado;
             inscripcionExiste.Id_Usuario = inscripcion.Id_Usuario;
             inscripcionExiste.Id_Evento = inscripcion.Id_Evento;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

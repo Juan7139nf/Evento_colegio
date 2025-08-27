@@ -40,19 +40,17 @@ namespace Infraestructure.Repositories
             _context.reportes.Add(reporte);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Reporte reporte)
+        public async Task Actualizar(Reporte reporte)
         {
             var reporteExiste = await _context.reportes.FirstOrDefaultAsync(r => r.Id == reporte.Id);
             if (reporteExiste == null)
-                return false;
+                throw new Exception("Reporte no encontrado");
 
             reporteExiste.Tipo = reporte.Tipo;
             reporteExiste.Archivo = reporte.Archivo;
             reporteExiste.Id_Evento = reporte.Id_Evento;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

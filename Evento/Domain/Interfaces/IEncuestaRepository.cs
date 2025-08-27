@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Encuesta>> ObtenerList();
         Task<Encuesta?> ObtenerId(Guid id);
         Task Crear(Encuesta encuesta);
-        Task<bool> Actualizar(Encuesta encuesta);
+        Task Actualizar(Encuesta encuesta);
     }
 }

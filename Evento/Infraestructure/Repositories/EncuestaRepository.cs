@@ -42,12 +42,11 @@ namespace Infraestructure.Repositories
             _context.encuestas.Add(encuesta);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<bool> Actualizar(Encuesta encuesta)
+        public async Task Actualizar(Encuesta encuesta)
         {
             var encuestaExiste = await _context.encuestas.FirstOrDefaultAsync(e => e.Id == encuesta.Id);
             if (encuestaExiste == null)
-                return false;
+                throw new Exception("Encuesta no encontrada");
 
             encuestaExiste.Titulo = encuesta.Titulo;
             encuestaExiste.Fecha_Creacion = encuesta.Fecha_Creacion;
@@ -55,7 +54,6 @@ namespace Infraestructure.Repositories
             encuestaExiste.Id_Inscripcion = encuesta.Id_Inscripcion;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

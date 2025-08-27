@@ -35,12 +35,12 @@ namespace Infraestructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Actualizar(Usuario usuario)
+        public async Task Actualizar(Usuario usuario)
         {
             var usuarioExiste = await _context.usuarios.FirstOrDefaultAsync(u => u.Id == usuario.Id);
             if (usuarioExiste == null)
             {
-                return false;
+                throw new Exception("Usuario no encontrado");
             }
 
             usuarioExiste.Nombre = usuario.Nombre;
@@ -50,7 +50,6 @@ namespace Infraestructure.Repositories
             usuarioExiste.Rol = usuario.Rol;
 
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }
