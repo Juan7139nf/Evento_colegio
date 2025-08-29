@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<Usuario?> ObtenerId(Guid id);
         Task Crear(Usuario usuario);
         Task Actualizar(Usuario usuario);
+        Task<Usuario?> ObtenerPorCorreo(string correo);
     }
 }

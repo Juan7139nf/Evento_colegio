@@ -22,6 +22,8 @@ namespace Infraestructure.Migrations
                     Lugar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Capacidad_Max = table.Column<int>(type: "int", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Encuesta = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Costo = table.Column<double>(type: "float", nullable: true),
                     ContentJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ArchivosJson = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -37,8 +39,9 @@ namespace Infraestructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Correo = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Contrasenia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rol = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -102,6 +105,7 @@ namespace Infraestructure.Migrations
                     Tipo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Fecha_Envio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_Usuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Id_Evento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -127,8 +131,8 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Fecha_Creacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id_Evento = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventoId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Id_Inscripcion = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -210,6 +214,12 @@ namespace Infraestructure.Migrations
                 name: "IX_reportes_EventoId",
                 table: "reportes",
                 column: "EventoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuarios_Correo",
+                table: "usuarios",
+                column: "Correo",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -48,8 +48,8 @@ namespace Infraestructure.Repositories
             if (encuestaExiste == null)
                 throw new Exception("Encuesta no encontrada");
 
-            encuestaExiste.Titulo = encuesta.Titulo;
             encuestaExiste.Fecha_Creacion = encuesta.Fecha_Creacion;
+            encuestaExiste.Value = encuesta.Value;
             encuestaExiste.Id_Evento = encuesta.Id_Evento;
             encuestaExiste.Id_Inscripcion = encuesta.Id_Inscripcion;
 

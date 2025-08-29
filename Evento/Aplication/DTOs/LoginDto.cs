@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace Aplication.DTOs
 {
-    public class UsuarioDto
+    public class LoginDto
     {
-        public Guid Id { get; set; }
-        public required string Nombre { get; set; }
-        public required string Apellido { get; set; }
         public required string Correo { get; set; }
         public required string Contrasenia { get; set; }
-        public string? Token { get; set; }
-        public string? Rol { get; set; } = "Usuario";
     }
 }

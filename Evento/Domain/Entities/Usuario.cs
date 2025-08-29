@@ -11,10 +11,15 @@ namespace Domain.Entities
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
-        public required string Nombre { get; set; }
-        public required string Apellido { get; set; }
-        public required string Correo { get; set; }
-        public required string Contrasenia { get; set; }
+        [Required]
+        public string Nombre { get; set; }
+        [Required]
+        public string Apellido { get; set; }
+        [Required, EmailAddress]
+        public string Correo { get; set; }
+        [Required]
+        public string Contrasenia { get; set; }
+        public string? Token {  get; set; }
         public string? Rol { get; set; } = "Usuario";
     }
 }

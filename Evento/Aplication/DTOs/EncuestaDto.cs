@@ -9,8 +9,9 @@ namespace Aplication.DTOs
     public class EncuestaDto
     {
         public Guid Id { get; set; }
-        public required String Titulo { get; set; }
         public DateTime Fecha_Creacion { get; set; }
+
+        public string? Value { get; set; }
 
         // Relacion
         public Guid Id_Evento { get; set; }

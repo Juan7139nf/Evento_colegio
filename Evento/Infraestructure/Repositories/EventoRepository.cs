@@ -45,6 +45,8 @@ namespace Infraestructure.Repositories
             eventoExiste.Fecha = evento.Fecha;
             eventoExiste.Lugar = evento.Lugar;
             eventoExiste.Capacidad_Max = evento.Capacidad_Max;
+            eventoExiste.Costo = evento.Costo;
+            eventoExiste.Encuesta = evento.Encuesta;
             eventoExiste.Estado = evento.Estado;
             eventoExiste.ContentJson = evento.ContentJson;
             eventoExiste.ArchivosJson = evento.ArchivosJson;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Domain.Entities
@@ -20,11 +18,43 @@ namespace Domain.Entities
         public string? Lugar { get; set; }
         public int Capacidad_Max { get; set; }
         public string? Estado { get; set; } = "Activo";
+        public string? Encuesta { get; set; }
+        public double? Costo { get; set; }
 
         // Guardados en la BD como JSON
-        [Column(TypeName = "nvarchar(max)")]
         public string? ContentJson { get; set; }
-        [Column(TypeName = "nvarchar(max)")]
         public string? ArchivosJson { get; set; }
+
+        // Propiedades que no se guardan directamente, pero sirven para acceder a listas
+        public List<Seccion>? Content
+        {
+            get => string.IsNullOrEmpty(ContentJson)
+                ? new List<Seccion>()
+                : JsonSerializer.Deserialize<List<Seccion>>(ContentJson);
+            set => ContentJson = JsonSerializer.Serialize(value);
+        }
+
+        public List<Archivo>? Archivos
+        {
+            get => string.IsNullOrEmpty(ArchivosJson)
+                ? new List<Archivo>()
+                : JsonSerializer.Deserialize<List<Archivo>>(ArchivosJson);
+            set => ArchivosJson = JsonSerializer.Serialize(value);
+        }
+    }
+
+    // Clases auxiliares
+    public class Seccion
+    {
+        public int Orden { get; set; }
+        public required string Title { get; set; }
+        public required string Content { get; set; }
+    }
+
+    public class Archivo
+    {
+        public int Orden { get; set; }
+        public required string Url { get; set; }
+        public required string Tipo { get; set; }
     }
 }

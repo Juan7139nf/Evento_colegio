@@ -15,6 +15,7 @@ namespace Domain.Entities
         public required string Tipo { get; set; }
         public DateTime Fecha_Envio { get; set; }
         public required String Estado {  get; set; }
+        public string? Value { get; set; }
 
         // Relaciones
         public Guid Id_Usuario { get; set; }

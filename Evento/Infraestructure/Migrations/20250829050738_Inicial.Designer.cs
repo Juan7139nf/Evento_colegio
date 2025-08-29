@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(BdContext))]
-    [Migration("20250827070819_Inicial")]
+    [Migration("20250829050738_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -46,8 +46,7 @@ namespace Infraestructure.Migrations
                     b.Property<Guid?>("InscripcionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Titulo")
-                        .IsRequired()
+                    b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -72,6 +71,12 @@ namespace Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ContentJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Costo")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Encuesta")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
@@ -158,6 +163,9 @@ namespace Infraestructure.Migrations
 
                     b.Property<Guid?>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -247,7 +255,7 @@ namespace Infraestructure.Migrations
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -256,7 +264,13 @@ namespace Infraestructure.Migrations
                     b.Property<string>("Rol")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Correo")
+                        .IsUnique();
 
                     b.ToTable("usuarios");
                 });

@@ -48,6 +48,7 @@ namespace Infraestructure.Repositories
 
             reporteExiste.Tipo = reporte.Tipo;
             reporteExiste.Archivo = reporte.Archivo;
+            reporteExiste.Fecha_Generacion = DateTime.UtcNow;
             reporteExiste.Id_Evento = reporte.Id_Evento;
 
             await _context.SaveChangesAsync();

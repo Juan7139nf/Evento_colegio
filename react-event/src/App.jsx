@@ -1,15 +1,13 @@
 import "./App.css";
 import NavbarOffcanvas from "./components/NavbarOffcanvas";
+import { UserProvider } from "./contexts/UserContext";
 import MisRutas from "./routes";
 
 function App() {
   return (
-    <>
-      <NavbarOffcanvas />
-      <div className="">
-        <MisRutas />
-      </div>
-    </>
+    <UserProvider>
+      <MisRutas />
+    </UserProvider>
   );
 }
 

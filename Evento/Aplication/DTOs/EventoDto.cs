@@ -15,6 +15,8 @@ namespace Aplication.DTOs
         public string? Lugar { get; set; }
         public int Capacidad_Max { get; set; }
         public string? Estado { get; set; } = "Activo";
+        public string? Encuesta { get; set; }
+        public double? Costo { get; set; }
         public List<SeccionDto>? Content { get; set; }
         public List<ArchivoDto>? Archivos { get; set; }
     }

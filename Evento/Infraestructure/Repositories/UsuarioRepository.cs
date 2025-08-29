@@ -31,6 +31,7 @@ namespace Infraestructure.Repositories
         public async Task Crear(Usuario usuario)
         {
             usuario.Id = Guid.NewGuid();
+            usuario.Contrasenia = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasenia);
             _context.usuarios.Add(usuario);
             await _context.SaveChangesAsync();
         }
@@ -46,10 +47,19 @@ namespace Infraestructure.Repositories
             usuarioExiste.Nombre = usuario.Nombre;
             usuarioExiste.Apellido = usuario.Apellido;
             usuarioExiste.Correo = usuario.Correo;
-            usuarioExiste.Contrasenia = usuario.Contrasenia;
+            if (!string.IsNullOrWhiteSpace(usuario.Contrasenia))
+            {
+                usuarioExiste.Contrasenia = BCrypt.Net.BCrypt.HashPassword(usuario.Contrasenia);
+            }
+            usuarioExiste.Token = usuario.Token;
             usuarioExiste.Rol = usuario.Rol;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Usuario?> ObtenerPorCorreo(string correo)
+        {
+            return await _context.usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
         }
     }
 }

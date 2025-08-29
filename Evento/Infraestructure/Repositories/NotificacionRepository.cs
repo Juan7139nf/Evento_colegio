@@ -50,6 +50,7 @@ namespace Infraestructure.Repositories
 
             notificacionExiste.Tipo = notificacion.Tipo;
             notificacionExiste.Estado = notificacion.Estado;
+            notificacionExiste.Value = notificacion.Value;
             notificacionExiste.Id_Usuario = notificacion.Id_Usuario;
             notificacionExiste.Id_Evento = notificacion.Id_Evento;
 
