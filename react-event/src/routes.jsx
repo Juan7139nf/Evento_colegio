@@ -10,6 +10,7 @@ import PageInscriptos from "./pages/Inscriptos";
 import Dashboard from "./pages/admin/Dashboard";
 import Eventos from "./pages/admin/Eventos";
 import Usuarios from "./pages/admin/Usuarios";
+import CrearEvento from "./pages/admin/CrearEvento";
 
 export default function MisRutas() {
   return (
@@ -18,7 +19,6 @@ export default function MisRutas() {
         <NavbarOffcanvas />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           <Route path="/eventos" element={<PageEventos />} />
@@ -26,6 +26,7 @@ export default function MisRutas() {
 
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/eventos" element={<Eventos />} />
+          <Route path="/admin/eventos/crear" element={<CrearEvento />} />
           <Route path="/admin/usuarios" element={<Usuarios />} />
         </Routes>
       </div>

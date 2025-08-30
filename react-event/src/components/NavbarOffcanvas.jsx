@@ -11,10 +11,11 @@ import {
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import Logout from "../pages/auth/Logout";
+import Login from "../pages/auth/Login";
 
 export default function NavbarOffcanvas() {
   const { usuario } = useContext(UserContext);
-  const expand = "lg";
+  const expand = "sm";
   return (
     <Navbar
       bg="primary"
@@ -42,8 +43,12 @@ export default function NavbarOffcanvas() {
               <NavLink to={"/"} className={"nav-link"}>
                 Inicio
               </NavLink>
-              <NavLink to={"/eventos"} className={"nav-link"}>Eventos</NavLink>
-              <NavLink to={"/inscriptos"} className={"nav-link"}>Inscriptos</NavLink>
+              <NavLink to={"/eventos"} className={"nav-link"}>
+                Eventos
+              </NavLink>
+              <NavLink to={"/inscriptos"} className={"nav-link"}>
+                Inscriptos
+              </NavLink>
               {usuario?.rol === "Admin" && (
                 <NavDropdown
                   title="Admin"
@@ -61,13 +66,7 @@ export default function NavbarOffcanvas() {
                   </NavLink>
                 </NavDropdown>
               )}
-              {usuario?.token ? (
-                <Logout />
-              ) : (
-                <NavLink to={"/login"} className={"nav-link"}>
-                  Login
-                </NavLink>
-              )}
+              {usuario?.token ? <Logout /> : <Login />}
             </Nav>
             {/* <Form className="d-flex">
               <Form.Control

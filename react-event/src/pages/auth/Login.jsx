@@ -7,7 +7,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function Login() {
   const navigate = useNavigate();
-const { login } = useContext(UserContext);
+  const { login } = useContext(UserContext);
 
   const loginGoogle = async () => {
     try {
@@ -88,15 +88,15 @@ const { login } = useContext(UserContext);
     }
   }; */
 
-  return (
-    <Container
+  return <Button onClick={loginGoogle} >Iniciar sesión</Button>;
+}
+
+  /* {<Container}
       fluid="sm"
       className="d-flex justify-content-center align-items-center vh-100"
     >
       <div className="text-center">
-        <h1>Iniciar sesión</h1>
-        <Button onClick={loginGoogle}>Iniciar sesión con Google</Button>
-      </div>
-    </Container>
-  );
-}
+        <h1>Iniciar sesión</h1>{/*  */
+
+  /* </div>
+    </Container> */
