@@ -23,7 +23,7 @@ export default function EventoShow() {
   const [evento, setEvento] = useState({});
   const [inscripcion, setInscripcion] = useState([]);
   const [pago, setPago] = useState([]);
-  const [encuesta, setEncuesta] = useState({});
+  const [encuesta, setEncuesta] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showPago, setShowPago] = useState(false);
   const [showEncuesta, setShowEncuesta] = useState(false);
@@ -225,6 +225,7 @@ export default function EventoShow() {
               )
             )}
           </div>
+          <div className="">{console.log(encuesta)}</div>
           {showPago && (
             <Modal show={showPago} onHide={() => setShowPago(false)}>
               <Modal.Header closeButton>

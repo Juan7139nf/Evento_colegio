@@ -46,9 +46,11 @@ export default function NavbarOffcanvas() {
               <NavLink to={"/eventos"} className={"nav-link"}>
                 Eventos
               </NavLink>
-              <NavLink to={"/inscriptos"} className={"nav-link"}>
-                Inscriptos
-              </NavLink>
+              {usuario && (
+                <NavLink to={"/inscriptos"} className={"nav-link"}>
+                  Inscriptos
+                </NavLink>
+              )}
               {usuario?.rol === "Admin" && (
                 <NavDropdown
                   title="Admin"

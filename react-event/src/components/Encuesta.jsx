@@ -19,16 +19,7 @@ export default function Encuesta({
   // Inicializar respuestas con valores vacíos
   useEffect(() => {
     const inicial = [];
-    if (dataEncuesta.length > 0) {
-      const resp = JSON.parse(encuesta?.value) || [];
-      data.forEach((dato, index) => {
-        inicial[index] = {
-          id: index,
-          value: resp[index]?.value || "",
-          type: dato.tipo,
-        };
-      });
-    } else {
+    if (dataEncuesta.length === 0) {
       data.forEach((dato, index) => {
         inicial[index] = {
           id: index,
@@ -36,6 +27,16 @@ export default function Encuesta({
           type: dato.tipo,
         };
       });
+    } else {
+      const resp = JSON.parse(encuesta) || [];
+      data.forEach((dato, index) => {
+        inicial[index] = {
+          id: index,
+          value: resp[index]?.value || "",
+          type: dato.tipo,
+        };
+      });
+      console.log(resp)
     }
     setFormRespuesta(inicial);
   }, [data]);
