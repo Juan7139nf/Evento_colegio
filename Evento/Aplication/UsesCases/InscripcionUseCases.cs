@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Aplication.UsesCases
@@ -29,6 +30,16 @@ namespace Aplication.UsesCases
         {
             if (inscripcion == null)
                 throw new ArgumentNullException(nameof(inscripcion));
+
+            // Verifica si ya existe una inscripción con ese usuario y evento
+            var todas = await _inscripcionRepository.ObtenerList();
+            var yaExiste = todas.Any(i =>
+                i.Id_Usuario == inscripcion.Id_Usuario &&
+                i.Id_Evento == inscripcion.Id_Evento
+            );
+
+            if (yaExiste)
+                throw new Exception("El usuario ya está inscrito en este evento.");
 
             await _inscripcionRepository.Crear(inscripcion);
             return inscripcion;

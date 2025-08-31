@@ -1,5 +1,6 @@
 ﻿using Aplication.DTOs;
 using Aplication.UsesCases;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("Cors")]
     public class AuthController : ControllerBase
     {
         private readonly UsuarioUseCases _usuarioUseCases;

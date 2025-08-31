@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("Cors")]
     public class ReportesController : ControllerBase
     {
         private readonly IReporteRepository _reporteRepository;

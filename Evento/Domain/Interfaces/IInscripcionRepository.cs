@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<Inscripcion?> ObtenerId(Guid id);
         Task Crear(Inscripcion inscripcion);
         Task Actualizar(Inscripcion inscripcion);
+        Task<Inscripcion?> ObtenerPorEventoYUsuario(Guid idEvento, Guid idUsuario);
     }
 }

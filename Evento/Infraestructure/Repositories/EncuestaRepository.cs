@@ -55,5 +55,14 @@ namespace Infraestructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Encuesta?> ObtenerPorEventoEInscripcion(Guid eventoId, Guid inscripcionId)
+        {
+            return await _context.encuestas
+                .Include(e => e.Evento)
+                .Include(e => e.Inscripcion)
+                .FirstOrDefaultAsync(e => e.Id_Evento == eventoId && e.Id_Inscripcion == inscripcionId);
+        }
+
     }
 }

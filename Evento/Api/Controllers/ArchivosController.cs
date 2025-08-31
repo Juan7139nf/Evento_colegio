@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("Cors")]
     public class ArchivosController : ControllerBase
     {
         private readonly string _rutaBase = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");

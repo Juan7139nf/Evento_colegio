@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<Pago?> ObtenerId(Guid id);
         Task Crear(Pago pago);
         Task Actualizar(Pago pago);
+        Task<Pago?> ObtenerPorInscripcion(Guid idInscripcion);
     }
 }

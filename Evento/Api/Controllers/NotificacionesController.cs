@@ -1,5 +1,6 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
+﻿using Aplication.UsesCases;
+using Domain.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,26 +10,28 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("Cors")]
+
     public class NotificacionesController : ControllerBase
     {
-        private readonly INotificacionRepository _notificacionRepository;
+        private readonly NotificacionUseCases _notificacionUseCases;
 
-        public NotificacionesController(INotificacionRepository notificacionRepository)
+        public NotificacionesController(NotificacionUseCases notificacionUseCases)
         {
-            _notificacionRepository = notificacionRepository ?? throw new ArgumentNullException(nameof(notificacionRepository));
+            _notificacionUseCases = notificacionUseCases ?? throw new ArgumentNullException(nameof(notificacionUseCases));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Notificacion>>> ObtenerTodos()
         {
-            var notificaciones = await _notificacionRepository.ObtenerList();
+            var notificaciones = await _notificacionUseCases.ObtenerNotificaciones();
             return Ok(notificaciones);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<Notificacion>> ObtenerPorId(Guid id)
         {
-            var notificacion = await _notificacionRepository.ObtenerId(id);
+            var notificacion = await _notificacionUseCases.ObtenerNotificacionPorId(id);
             if (notificacion is null) return NotFound();
             return Ok(notificacion);
         }
@@ -36,20 +39,30 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Crear([FromBody] Notificacion notificacion)
         {
-            await _notificacionRepository.Crear(notificacion);
-            return CreatedAtAction(nameof(ObtenerPorId), new { id = notificacion.Id }, notificacion);
+            try
+            {
+                var creada = await _notificacionUseCases.CrearNotificacion(notificacion);
+                return CreatedAtAction(nameof(ObtenerPorId), new { id = creada.Id }, creada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> Actualizar(Guid id, [FromBody] Notificacion notificacion)
         {
-            var existente = await _notificacionRepository.ObtenerId(id);
-            if (existente is null) return NotFound();
-
             notificacion.Id = id;
-            await _notificacionRepository.Actualizar(notificacion);
-            return NoContent();
+            try
+            {
+                var actualizada = await _notificacionUseCases.ActualizarNotificacion(notificacion);
+                return Ok(actualizada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
-
     }
 }

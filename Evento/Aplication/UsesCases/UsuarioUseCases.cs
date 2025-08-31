@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Aplication.UsesCases
@@ -34,6 +35,11 @@ namespace Aplication.UsesCases
             if (string.IsNullOrWhiteSpace(usuario.Contrasenia))
                 throw new Exception("La contraseña es obligatoria");
 
+            // Validar que no exista un usuario con el mismo correo
+            var existente = await _usuarioRepository.ObtenerPorCorreo(usuario.Correo);
+            if (existente != null)
+                throw new Exception("Ya existe un usuario con ese correo");
+
             await _usuarioRepository.Crear(usuario);
             return usuario;
         }
@@ -43,6 +49,11 @@ namespace Aplication.UsesCases
             var existente = await _usuarioRepository.ObtenerId(usuario.Id);
             if (existente == null)
                 throw new Exception("Usuario no encontrado");
+
+            // Validar que no se actualice a un correo que pertenece a otro usuario
+            var otroUsuario = await _usuarioRepository.ObtenerPorCorreo(usuario.Correo);
+            if (otroUsuario != null && otroUsuario.Id != usuario.Id)
+                throw new Exception("Ya existe otro usuario con ese correo");
 
             await _usuarioRepository.Actualizar(usuario);
             return usuario;
@@ -64,7 +75,7 @@ namespace Aplication.UsesCases
 
             // Generar un token sencillo (GUID). En proyectos grandes usar JWT.
             // usuario.Token = Guid.NewGuid().ToString();
-            //await _usuarioRepository.Actualizar(usuario);
+            // await _usuarioRepository.Actualizar(usuario);
 
             return new LoginResponseDto
             {

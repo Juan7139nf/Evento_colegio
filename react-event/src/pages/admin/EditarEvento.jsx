@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Col,
@@ -8,10 +8,14 @@ import {
   InputGroup,
   ButtonGroup,
   Image,
+  Spinner,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-export default function CrearEvento() {
+export default function EditarEvento() {
+  const { id } = useParams(); // Obtenemos el id del evento
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     nombre_Evento: "",
     tipo: "",
@@ -24,7 +28,8 @@ export default function CrearEvento() {
     content: [],
     archivos: [],
   });
-  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   const [preguntaTemp, setPreguntaTemp] = useState({
     pregunta: "",
@@ -44,12 +49,39 @@ export default function CrearEvento() {
     editIndex: null,
   });
 
+  // Cargar datos del evento al montar el componente
+  useEffect(() => {
+    const fetchEvento = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:7294/api/Eventos/${id}`
+        );
+        if (!response.ok) throw new Error("Error al cargar evento");
+        const data = await response.json();
+        setFormData({
+          nombre_Evento: data.nombre_Evento || "",
+          tipo: data.tipo || "",
+          fecha: data.fecha ? data.fecha.slice(0, 16) : "",
+          lugar: data.lugar || "",
+          capacidad_Max: data.capacidad_Max || 1,
+          estado: data.estado || "Activo",
+          encuesta: data.encuesta ? JSON.parse(data.encuesta) : [],
+          costo: data.costo || "",
+          content: data.content || [],
+          archivos: data.archivos || [],
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEvento();
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePreguntaChange = (e) => {
@@ -61,7 +93,8 @@ export default function CrearEvento() {
     const { name, value } = e.target;
     setContentTemp((prev) => ({ ...prev, [name]: value }));
   };
-  // Funciones generales para agregar/editar/eliminar
+
+  // Funciones para encuesta, content y archivos (idénticas a CrearEvento)
   const agregarPregunta = () => {
     if (preguntaTemp.editIndex !== null) {
       const nuevaEncuesta = [...formData.encuesta];
@@ -148,46 +181,6 @@ export default function CrearEvento() {
     setFormData((prev) => ({ ...prev, archivos: newArchivos }));
   };
 
-  // Fecha mínima: mañana
-  const minDate = new Date();
-  minDate.setDate(minDate.getDate() + 1);
-  const minDateStr = minDate.toISOString().slice(0, 16);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      ...formData,
-      encuesta: JSON.stringify(formData.encuesta),
-      content: formData.content,
-      archivos: formData.archivos,
-    };
-
-    
-  try {
-    const response = await fetch("https://localhost:7294/api/Eventos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error al crear evento:", errorData);
-      return;
-    }
-
-    const data = await response.json();
-    console.log("Evento creado:", data);
-
-    // Redirigir a la ruta de administración
-    navigate("/admin/eventos");
-  } catch (error) {
-    console.error("Error en la solicitud:", error);
-  }
-  };
-
   const handleArchivoChange = (e) => {
     if (e.target.type === "file") {
       setArchivoTemp((prev) => ({ ...prev, file: e.target.files[0] }));
@@ -213,7 +206,7 @@ export default function CrearEvento() {
       const nuevoArchivo = {
         orden: formData.archivos.length,
         url: data.url,
-        tipo: archivoTemp.tipo,
+        tipo: "Imagen",
       };
 
       setFormData((prev) => ({
@@ -225,9 +218,58 @@ export default function CrearEvento() {
     }
   };
 
+  // Fecha mínima: mañana
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 1);
+  const minDateStr = minDate.toISOString().slice(0, 16);
+
+  // Submit PUT
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      ...formData,
+      encuesta: JSON.stringify(formData.encuesta),
+      content: formData.content,
+      archivos: formData.archivos,
+    };
+    console.log("Payload a enviar:", payload);
+
+    try {
+      const response = await fetch(`https://localhost:7294/api/Eventos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error al actualizar evento:", errorData);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Evento actualizado:", data);
+      navigate("/admin/eventos/" + id);
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center mt-5">
+        <Spinner animation="border" />
+      </div>
+    );
+
   return (
     <Container fluid="sm" className="mt-3 mb-5">
-      <h1>Crear Evento</h1>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>Editar Evento</h2>
+        <NavLink to="/admin/eventos" className="btn btn-secondary">
+          Volver
+        </NavLink>
+      </div>
       <Form onSubmit={handleSubmit}>
         {/* Campos básicos */}
         <Form.Group className="mb-3">
@@ -387,8 +429,12 @@ export default function CrearEvento() {
         <Container className="shadow p-3 mb-3">
           <Form.Label>Archivos (opcional)</Form.Label>
           {formData.archivos.map((a, index) => (
-            <div className="position-relative m-3">
-              <Image src={a.url} className="w-100 rounded-3 object-fit-cover" style={{ maxHeight: "500px" }} />
+            <div className="position-relative m-3" key={index}>
+              <Image
+                src={a.url}
+                className="w-100 rounded-3 object-fit-cover"
+                style={{ maxHeight: "500px" }}
+              />
               <ButtonGroup className="position-absolute start-0 top-0">
                 <Button variant="danger" onClick={() => eliminarArchivo(index)}>
                   Eliminar
@@ -405,14 +451,14 @@ export default function CrearEvento() {
               />
             </Col>
             {/* <Col>
-              <Form.Control
-                type="text"
-                placeholder="Tipo"
-                name="tipo"
-                value={archivoTemp.tipo}
-                onChange={handleArchivoChange}
-              />
-            </Col> */}
+                    <Form.Control
+                      type="text"
+                      placeholder="Tipo"
+                      name="tipo"
+                      value={archivoTemp.tipo}
+                      onChange={handleArchivoChange}
+                    />
+                  </Col> */}
             <Col xs="auto">
               <Button type="button" onClick={agregarArchivo}>
                 {archivoTemp.editIndex !== null ? "Actualizar" : "Agregar"}
@@ -422,7 +468,7 @@ export default function CrearEvento() {
         </Container>
 
         <Form.Group className="mb-3">
-          <Form.Label>Costo</Form.Label>
+          <Form.Label>Costo (opcional)</Form.Label>
           <Form.Control
             type="number"
             name="costo"
@@ -435,10 +481,19 @@ export default function CrearEvento() {
 
         <Form.Group className="mb-3">
           <Form.Label>Estado</Form.Label>
-          <Form.Control type="text" value={formData.estado} disabled />
+          <Form.Select
+            name="estado"
+            value={formData.estado}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Seleccione un estado</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </Form.Select>
         </Form.Group>
 
-        <Button type="submit">Crear evento</Button>
+        <Button type="submit">Editar evento</Button>
       </Form>
     </Container>
   );

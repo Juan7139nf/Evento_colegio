@@ -49,17 +49,17 @@ const { login } = useContext(UserContext);
       if (data.success) {
         setSuccess(data.message);
         console.log("Usuario registrado:", data);
-        const usuario = {
+        const nuevoUsuario = {
           id: data.data.id,
           nombre: data.data.nombre,
           apellido: data.data.apellido,
           token: data.data.token,
           correo: data.data.correo,
           rol: data.data.rol,
-          displayName: JSON.parse(usuario).displayName,
-          photoURL: JSON.parse(usuario).photoURL,
+          displayName: usuario ? JSON.parse(usuario).displayName : "",
+          photoURL: usuario ? JSON.parse(usuario).photoURL : "",
         };
-        login(usuario);
+        login(nuevoUsuario);
         navigate("/");
       } else {
         setError(data.message || "Error al registrar usuario");

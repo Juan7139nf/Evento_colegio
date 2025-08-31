@@ -54,5 +54,11 @@ namespace Infraestructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+        public async Task<Pago?> ObtenerPorInscripcion(Guid idInscripcion)
+        {
+            return await _context.pagos
+                .Include(p => p.Inscripcion)
+                .FirstOrDefaultAsync(p => p.Id_Inscripcion == idInscripcion);
+        }
     }
 }

@@ -55,5 +55,10 @@ namespace Infraestructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+        public async Task<Inscripcion?> ObtenerPorEventoYUsuario(Guid idEvento, Guid idUsuario)
+        {
+            return await _context.inscripciones
+                .FirstOrDefaultAsync(i => i.Id_Evento == idEvento && i.Id_Usuario == idUsuario);
+        }
     }
 }

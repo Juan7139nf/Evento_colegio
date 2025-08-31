@@ -33,9 +33,20 @@ namespace Aplication.UsesCases
             if (evento.Capacidad_Max <= 0)
                 throw new Exception("La capacidad máxima debe ser mayor a 0");
 
+            // Verificar si ya existe un evento con el mismo nombre, fecha y lugar
+            var eventosExistentes = await _eventoRepository.ObtenerList();
+            bool yaExiste = eventosExistentes.Any(e =>
+                e.Nombre_Evento.Equals(evento.Nombre_Evento, StringComparison.OrdinalIgnoreCase) &&
+                e.Fecha.Date == evento.Fecha.Date &&
+                e.Lugar?.Trim().ToLower() == evento.Lugar?.Trim().ToLower());
+
+            if (yaExiste)
+                throw new Exception("Ya existe un evento con el mismo nombre, fecha y lugar.");
+
             await _eventoRepository.Crear(evento);
             return evento;
         }
+
 
         public async Task<Evento> ActualizarEvento(Evento evento)
         {

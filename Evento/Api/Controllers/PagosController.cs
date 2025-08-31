@@ -1,5 +1,6 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
+﻿using Aplication.UsesCases;
+using Domain.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,26 +10,28 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("Cors")]
+
     public class PagosController : ControllerBase
     {
-        private readonly IPagoRepository _pagoRepository;
+        private readonly PagoUseCases _pagoUseCases;
 
-        public PagosController(IPagoRepository pagoRepository)
+        public PagosController(PagoUseCases pagoUseCases)
         {
-            _pagoRepository = pagoRepository ?? throw new ArgumentNullException(nameof(pagoRepository));
+            _pagoUseCases = pagoUseCases ?? throw new ArgumentNullException(nameof(pagoUseCases));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pago>>> ObtenerTodos()
         {
-            var pagos = await _pagoRepository.ObtenerList();
+            var pagos = await _pagoUseCases.ObtenerPagos();
             return Ok(pagos);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<Pago>> ObtenerPorId(Guid id)
         {
-            var pago = await _pagoRepository.ObtenerId(id);
+            var pago = await _pagoUseCases.ObtenerPagoPorId(id);
             if (pago is null) return NotFound();
             return Ok(pago);
         }
@@ -36,19 +39,30 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Crear([FromBody] Pago pago)
         {
-            await _pagoRepository.Crear(pago);
-            return CreatedAtAction(nameof(ObtenerPorId), new { id = pago.Id }, pago);
+            try
+            {
+                var creado = await _pagoUseCases.RegistrarPago(pago);
+                return CreatedAtAction(nameof(ObtenerPorId), new { id = creado.Id }, creado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> Actualizar(Guid id, [FromBody] Pago pago)
         {
-            var existente = await _pagoRepository.ObtenerId(id);
-            if (existente is null) return NotFound();
-
             pago.Id = id;
-            await _pagoRepository.Actualizar(pago);
-            return NoContent();
+            try
+            {
+                var actualizado = await _pagoUseCases.ActualizarPago(pago);
+                return Ok(actualizado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
     }
 }

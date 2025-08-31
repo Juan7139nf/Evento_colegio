@@ -1,35 +1,37 @@
 ﻿using Domain.Entities;
-using Domain.Interfaces;
+using Aplication.UsesCases;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("Cors")]
     public class UsuariosController : ControllerBase
     {
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly UsuarioUseCases _usuarioUseCases;
 
-        public UsuariosController(IUsuarioRepository usuarioRepository)
+        public UsuariosController(UsuarioUseCases usuarioUseCases)
         {
-            _usuarioRepository = usuarioRepository ?? throw new ArgumentNullException(nameof(usuarioRepository));
+            _usuarioUseCases = usuarioUseCases ?? throw new ArgumentNullException(nameof(usuarioUseCases));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> ObtenerTodos()
         {
-            var usuarios = await _usuarioRepository.ObtenerList();
+            var usuarios = await _usuarioUseCases.ObtenerUsuarios();
             return Ok(usuarios);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<Usuario>> ObtenerPorId(Guid id)
         {
-            var usuario = await _usuarioRepository.ObtenerId(id);
-            if (usuario is null) return NotFound();
+            var usuario = await _usuarioUseCases.ObtenerUsuarioPorId(id);
+            if (usuario == null) return NotFound();
             return Ok(usuario);
         }
 
@@ -38,19 +40,19 @@ namespace Api.Controllers
         {
             try
             {
-                await _usuarioRepository.Crear(usuario);
+                var creado = await _usuarioUseCases.RegistrarUsuario(usuario);
                 return Ok(new
                 {
                     success = true,
                     message = "Usuario creado correctamente",
                     data = new
                     {
-                        usuario.Id,
-                        usuario.Nombre,
-                        usuario.Apellido,
-                        usuario.Correo,
-                        usuario.Token,
-                        usuario.Rol
+                        creado.Id,
+                        creado.Nombre,
+                        creado.Apellido,
+                        creado.Correo,
+                        creado.Token,
+                        creado.Rol
                     }
                 });
             }
@@ -67,12 +69,33 @@ namespace Api.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> Actualizar(Guid id, [FromBody] Usuario usuario)
         {
-            var existente = await _usuarioRepository.ObtenerId(id);
-            if (existente is null) return NotFound();
-
-            usuario.Id = id;
-            await _usuarioRepository.Actualizar(usuario);
-            return NoContent();
+            try
+            {
+                usuario.Id = id;
+                var actualizado = await _usuarioUseCases.ActualizarUsuario(usuario);
+                return Ok(new
+                {
+                    success = true,
+                    message = "Usuario actualizado correctamente",
+                    data = new
+                    {
+                        actualizado.Id,
+                        actualizado.Nombre,
+                        actualizado.Apellido,
+                        actualizado.Correo,
+                        actualizado.Token,
+                        actualizado.Rol
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Aplication.UsesCases;
 using Domain.Entities;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("Cors")]
     public class EventosController : ControllerBase
     {
         private readonly EventoUseCases _eventoUseCases;
@@ -36,8 +38,16 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult> Crear([FromBody] Evento evento)
         {
-            var creado = await _eventoUseCases.CrearEvento(evento);
-            return CreatedAtAction(nameof(ObtenerPorId), new { id = creado.Id }, creado);
+            try
+            {
+                var creado = await _eventoUseCases.CrearEvento(evento);
+                return CreatedAtAction(nameof(ObtenerPorId), new { id = creado.Id }, creado);
+            }
+            catch (Exception ex)
+            {
+                // Si el evento ya existe o hay otro error, devolvemos BadRequest con el mensaje
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         [HttpPut("{id:guid}")]

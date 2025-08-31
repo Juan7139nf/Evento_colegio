@@ -5,7 +5,7 @@ import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
-export default function Login() {
+export default function Login({text="Iniciar sesión"}) {
   const navigate = useNavigate();
   const { login } = useContext(UserContext);
 
@@ -88,15 +88,15 @@ export default function Login() {
     }
   }; */
 
-  return <Button onClick={loginGoogle} >Iniciar sesión</Button>;
+  return <Button onClick={loginGoogle}>{text}</Button>;
 }
 
-  /* {<Container}
+/* {<Container}
       fluid="sm"
       className="d-flex justify-content-center align-items-center vh-100"
     >
       <div className="text-center">
         <h1>Iniciar sesión</h1>{/*  */
 
-  /* </div>
+/* </div>
     </Container> */

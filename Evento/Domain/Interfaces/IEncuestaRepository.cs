@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<Encuesta?> ObtenerId(Guid id);
         Task Crear(Encuesta encuesta);
         Task Actualizar(Encuesta encuesta);
+        Task<Encuesta?> ObtenerPorEventoEInscripcion(Guid idEvento, Guid idInscripcion);
     }
 }
