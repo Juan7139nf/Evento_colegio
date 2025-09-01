@@ -48,7 +48,7 @@ export default function NavbarOffcanvas() {
               </NavLink>
               {usuario && (
                 <NavLink to={"/inscriptos"} className={"nav-link"}>
-                  Inscriptos
+                  Inscripciones
                 </NavLink>
               )}
               {usuario?.rol === "Admin" && (

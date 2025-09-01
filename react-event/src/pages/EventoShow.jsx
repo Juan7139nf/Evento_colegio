@@ -203,65 +203,74 @@ export default function EventoShow() {
         <p>Costo: {evento.costo} Bs</p>
         {inscripcion && <p>Estado de Inscripción: {inscripcion.estado}</p>}
       </Card>
-
-      {usuario ? (
+      {evento.estado === "Activo" && (
         <>
-          <div className="text-center">
-            {inscripcion.length === 0 ? (
-              <Button variant="success" onClick={handleInscribir}>
-                Deseas Inscribirte?
-              </Button>
-            ) : pago.length === 0 ? (
-              <Button variant="primary" onClick={() => setShowPago(true)}>
-                Realizar Pago
-              </Button>
-            ) : (
-              inscripcion.estado === "Completado" && (
-                <Button variant="primary" onClick={() => setShowEncuesta(true)}>
-                  {encuesta.length === 0
-                    ? "Deseas Responder la Encuesta?"
-                    : "Puedes modificar tu Respuesta"}
-                </Button>
-              )
-            )}
-          </div>
-          <div className="">{console.log(encuesta)}</div>
-          {showPago && (
-            <Modal show={showPago} onHide={() => setShowPago(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>Realizar Pago</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>¿Estás seguro de que deseas realizar el pago?</p>
-                <p>Este es un pago de {evento.costo} Bs</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShowPago(false)}>
-                  Cancelar
-                </Button>
-                <Button variant="primary" onClick={handleConfirmPago}>
-                  Confirmar Pago
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          )}
-          {showEncuesta && (
-            <Encuesta
-              dataEncuesta={encuesta}
-              encuesta={encuesta.value}
-              setEncuesta={setEncuesta}
-              showEncuesta={showEncuesta}
-              setShowEncuesta={setShowEncuesta}
-              data={evento.encuesta}
-              id_Evento={evento.id}
-              id_Inscripcion={inscripcion.id}
-            />
+          {usuario ? (
+            <>
+              <div className="text-center">
+                {inscripcion.length === 0 ? (
+                  <Button variant="success" onClick={handleInscribir}>
+                    Deseas Inscribirte?
+                  </Button>
+                ) : pago.length === 0 ? (
+                  <Button variant="primary" onClick={() => setShowPago(true)}>
+                    Realizar Pago
+                  </Button>
+                ) : (
+                  inscripcion.estado === "Completado" && (
+                    <Button
+                      variant="primary"
+                      onClick={() => setShowEncuesta(true)}
+                    >
+                      {encuesta.length === 0
+                        ? "Deseas Responder la Encuesta?"
+                        : "Puedes modificar tu Respuesta"}
+                    </Button>
+                  )
+                )}
+              </div>
+              <div className="">{console.log(encuesta)}</div>
+              {showPago && (
+                <Modal show={showPago} onHide={() => setShowPago(false)}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Realizar Pago</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p>¿Estás seguro de que deseas realizar el pago?</p>
+                    <p>Este es un pago de {evento.costo} Bs</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowPago(false)}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button variant="primary" onClick={handleConfirmPago}>
+                      Confirmar Pago
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+              {showEncuesta && (
+                <Encuesta
+                  dataEncuesta={encuesta}
+                  encuesta={encuesta.value}
+                  setEncuesta={setEncuesta}
+                  showEncuesta={showEncuesta}
+                  setShowEncuesta={setShowEncuesta}
+                  data={evento.encuesta}
+                  id_Evento={evento.id}
+                  id_Inscripcion={inscripcion.id}
+                />
+              )}
+            </>
+          ) : (
+            <div className="text-center">
+              <Login text="Inicia sesión para poder inscribirte en el evento" />
+            </div>
           )}
         </>
-      ) : (
-        <div className="text-center">
-          <Login text="Inicia sesión para poder inscribirte en el evento" />
-        </div>
       )}
 
       {/* <div>{JSON.stringify(evento.encuesta, null, 2)}</div> */}

@@ -38,7 +38,7 @@ export default function PageInscriptos() {
 
   return (
     <Container className="mt-4">
-      <h1 className="text-center">Inscriptos</h1>
+      <h1 className="text-center">Inscripciones</h1>
       <Row>
         {inscripciones
           .filter(

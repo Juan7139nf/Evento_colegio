@@ -52,6 +52,7 @@ builder.Services.AddScoped<PagoUseCases>();
 builder.Services.AddScoped<EncuestaUseCases>();
 builder.Services.AddScoped<NotificacionUseCases>();
 builder.Services.AddScoped<ReporteUseCases>();
+builder.Services.AddScoped<DashboardUseCases>();
 
 var app = builder.Build();
 

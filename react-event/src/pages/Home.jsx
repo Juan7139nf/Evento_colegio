@@ -33,10 +33,14 @@ export default function Home() {
       try {
         const response = await fetch("https://localhost:7294/api/Eventos");
         const data = await response.json();
-        setEventos(data);
+
+        const activos = data.filter(
+          (evento) => evento.estado?.toLowerCase() === "activo"
+        );
+        setEventos(activos);
 
         // Seleccionar 5 eventos aleatorios
-        const shuffled = data.sort(() => 0.5 - Math.random());
+        const shuffled = activos.sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 5);
 
         // Mapear solo los campos necesarios para el slider
@@ -91,48 +95,54 @@ export default function Home() {
           </p>
         </div>
         <Row>
-          {eventos.map((evento) => (
-            <Col key={evento.id} xs={12} sm={6} lg={4} className="mb-4">
-              <Card className="h-100 shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src={
-                    evento.archivos?.[0]?.url ||
-                    "https://via.placeholder.com/300"
-                  }
-                  alt={evento.nombre_Evento}
-                  style={{ objectFit: "cover", height: "200px" }}
-                />
-                <Card.Body>
-                  <Card.Title className="fw-bold">
-                    {evento.nombre_Evento}
-                  </Card.Title>
-                  <Card.Text className="mb-1">
-                    <strong>Fecha:</strong>{" "}
-                    {format(new Date(evento.fecha), "dd 'de' MMMM 'de' yyyy", {
-                      locale: es,
-                    })}{" "}
-                    <br />
-                    <strong>Lugar:</strong> {evento.lugar}
-                  </Card.Text>
-                  <div className="d-flex justify-content-between">
-                    <div className="">
-                      <strong>Costo:</strong> {evento.costo} Bs <br />
-                      <strong>Tipo:</strong> {evento.tipo}
+          {eventos
+            .filter((evento) => evento.estado === "Activo")
+            .map((evento) => (
+              <Col key={evento.id} xs={12} sm={6} lg={4} className="mb-4">
+                <Card className="h-100 shadow-sm">
+                  <Card.Img
+                    variant="top"
+                    src={
+                      evento.archivos?.[0]?.url ||
+                      "https://via.placeholder.com/300"
+                    }
+                    alt={evento.nombre_Evento}
+                    style={{ objectFit: "cover", height: "200px" }}
+                  />
+                  <Card.Body>
+                    <Card.Title className="fw-bold">
+                      {evento.nombre_Evento}
+                    </Card.Title>
+                    <Card.Text className="mb-1">
+                      <strong>Fecha:</strong>{" "}
+                      {format(
+                        new Date(evento.fecha),
+                        "dd 'de' MMMM 'de' yyyy",
+                        {
+                          locale: es,
+                        }
+                      )}{" "}
+                      <br />
+                      <strong>Lugar:</strong> {evento.lugar}
+                    </Card.Text>
+                    <div className="d-flex justify-content-between">
+                      <div className="">
+                        <strong>Costo:</strong> {evento.costo} Bs <br />
+                        <strong>Tipo:</strong> {evento.tipo}
+                      </div>
+                      <div className="">
+                        <NavLink
+                          to={`/show/${evento.id}`}
+                          className="btn btn-primary"
+                        >
+                          Ver Detalles
+                        </NavLink>
+                      </div>
                     </div>
-                    <div className="">
-                      <NavLink
-                        to={`/show/${evento.id}`}
-                        className="btn btn-primary"
-                      >
-                        Ver Detalles
-                      </NavLink>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
         </Row>
       </Container>
     </>
