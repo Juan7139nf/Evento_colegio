@@ -4,7 +4,6 @@ import {
   Row,
   Col,
   Card,
-  ProgressBar,
   Spinner,
 } from "react-bootstrap";
 import { Bar, Pie } from "react-chartjs-2";
@@ -18,6 +17,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import "./Dashboard.css"; // 👈 Importar estilos personalizados
 
 ChartJS.register(
   CategoryScale,
@@ -51,13 +51,12 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center mt-5">
-        <Spinner animation="border" />
+      <div className="dashboard-loading">
+        <Spinner animation="border" variant="primary" />
       </div>
     );
   }
 
-  // Datos de ejemplo para las gráficas
   const barData = {
     labels: ["Eventos", "Inscripciones", "Usuarios", "Pagos", "Encuestas"],
     datasets: [
@@ -71,12 +70,13 @@ export default function Dashboard() {
           data.totalEncuestas,
         ],
         backgroundColor: [
-          "#007bff",
-          "#fadc16ff",
+          "#4682B4", // Azul acero
+          "#fadc16ff", 
           "#14e2e9ff",
           "#d93848ff",
           "#542ade9e",
         ],
+        borderRadius: 8,
       },
     ],
   };
@@ -86,54 +86,56 @@ export default function Dashboard() {
     datasets: [
       {
         data: [data.inscripciones.Completado, data.inscripciones.Pendiente],
-        backgroundColor: ["#0ee8a0ff", "#606060ff"],
+        backgroundColor: ["#2E8B57", "#808080"],
+        borderWidth: 2,
       },
     ],
   };
 
   return (
-    <Container fluid="sm" className="mt-4">
+    <Container fluid className="dashboard-container">
+      <h1 className="text-center dashboard-title">Registrados</h1>
+
       {/* Cards de estadísticas rápidas */}
-      <h1 className="text-center">Registrados</h1>
-      <Row className="mb-4 g-4">
+      <Row className="mb-5 g-4 justify-content-center">
         <Col md={3}>
-          <Card bg="primary" text="white" className="text-center bg-opacity-75">
+          <Card bg="primary" text="white" className="text-center dashboard-card">
             <Card.Body>
               <Card.Title>Eventos</Card.Title>
-              <Card.Text className="fs-2">{data.totalEventos}</Card.Text>
+              <Card.Text>{data.totalEventos}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
         <Col md={3}>
-          <Card bg="warning" text="white" className="text-center bg-opacity-75">
+          <Card bg="warning" text="white" className="text-center dashboard-card">
             <Card.Body>
               <Card.Title>Inscripciones</Card.Title>
-              <Card.Text className="fs-2">{data.totalInscripciones}</Card.Text>
+              <Card.Text>{data.totalInscripciones}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
         <Col md={3}>
-          <Card bg="info" text="white" className="text-center bg-opacity-75">
+          <Card bg="info" text="white" className="text-center dashboard-card">
             <Card.Body>
               <Card.Title>Usuarios</Card.Title>
-              <Card.Text className="fs-2">{data.totalUsuarios}</Card.Text>
+              <Card.Text>{data.totalUsuarios}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
         <Col md={3}>
-          <Card bg="danger" text="white" className="text-center bg-opacity-75">
+          <Card bg="danger" text="white" className="text-center dashboard-card">
             <Card.Body>
               <Card.Title>Pagos</Card.Title>
-              <Card.Text className="fs-2">{data.totalPagos}</Card.Text>
+              <Card.Text>{data.totalPagos}</Card.Text>
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
       {/* Gráficas */}
-      <Row className="d-flex align-items-center">
+      <Row className="d-flex align-items-stretch">
         <Col md={7} className="mb-4">
-          <Card>
+          <Card className="dashboard-chart h-100">
             <Card.Body>
               <Card.Title>Resumen General</Card.Title>
               <Bar data={barData} />
@@ -141,7 +143,7 @@ export default function Dashboard() {
           </Card>
         </Col>
         <Col md={5} className="mb-4">
-          <Card>
+          <Card className="dashboard-chart h-100">
             <Card.Body>
               <Card.Title>Estado de Inscripciones</Card.Title>
               <Pie data={pieData} />
@@ -149,18 +151,6 @@ export default function Dashboard() {
           </Card>
         </Col>
       </Row>
-
-      {/* Progreso ejemplo */}
-      {/* <Row>
-        <Col md={12}>
-          <Card>
-            <Card.Body>
-              <Card.Title>Avance de Eventos</Card.Title>
-              <ProgressBar now={60} label="60%" />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row> */}
     </Container>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Container, Image, Table } from "react-bootstrap";
+import "./Inscripciones.css"; // 👈 Importar CSS
 
 export default function Inscripciones() {
   const [eventos, setEventos] = useState([]);
@@ -13,25 +14,23 @@ export default function Inscripciones() {
           "https://localhost:7294/api/Inscripciones"
         );
         const data = await response.json();
-        console.log(data);
         setEventos(data);
       } catch (error) {
         console.error("Error al cargar inscripciones:", error);
-      } /* finally {
-        setLoading(false);
-      } */
+      }
     };
 
     fetchInscripciones();
   }, []);
+
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 inscripciones-container">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Gestión de Eventos</h2>
+        <h2 className="inscripciones-title">Gestión de Eventos</h2>
       </div>
-      <Table bordered hover striped responsive>
-        <thead className="table-dark">
-          <tr>
+      <Table bordered hover responsive className="inscripciones-table">
+        <thead>
+          <tr className="table-dark">
             <th>Evento</th>
             <th>Usuario</th>
             <th>Fecha</th>
@@ -43,7 +42,7 @@ export default function Inscripciones() {
           {eventos && eventos.length > 0 ? (
             eventos.map((item, idx) => (
               <tr key={idx}>
-                <td className="flex align-items-center">
+                <td className="d-flex align-items-center">
                   <Image
                     src={
                       item.evento.archivos?.[0]?.url ||
@@ -55,19 +54,23 @@ export default function Inscripciones() {
                   />
                   <b>{item.evento.nombre_Evento}</b>
                 </td>
-                <td className="align-middle">{item.usuario.nombre} {item.usuario.apellido}</td>
+                <td className="align-middle">
+                  {item.usuario.nombre} {item.usuario.apellido}
+                </td>
                 <td className="align-middle">
                   {format(new Date(item.fecha_Inscripcion), "dd 'de' MMMM 'de' yyyy", {
                     locale: es,
                   })}
                 </td>
                 <td className="align-middle">{item.evento.costo} Bs</td>
-                <td className="align-middle">{item.estado}</td>
+                <td className={`align-middle estado-badge ${item.estado.toLowerCase()}`}>
+                  {item.estado}
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="5" className="text-center py-3">
                 No hay registros disponibles
               </td>
             </tr>

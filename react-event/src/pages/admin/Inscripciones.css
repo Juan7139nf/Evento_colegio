@@ -1,0 +1,70 @@
+/* Contenedor principal */
+.inscripciones-container {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Título */
+.inscripciones-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #4682b4; /* Azul Acero */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Tabla */
+.inscripciones-table {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.inscripciones-table thead tr {
+  background: #00008b; /* Azul Real */
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inscripciones-table tbody tr {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.inscripciones-table tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+/* Estados */
+.estado-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.estado-badge.completado {
+  background-color: #2e8b57; /* Verde Mar */
+}
+
+.estado-badge.pendiente {
+  background-color: #acf6c8; /* Verde Menta */
+  color: #000; /* Texto oscuro sobre verde claro */
+}
+
+/* Animación de fade */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

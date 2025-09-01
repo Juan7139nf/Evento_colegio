@@ -1,0 +1,85 @@
+/* Fondo del modal */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Header */
+.modal-header {
+  background: linear-gradient(90deg, #4682B4, #00008B);
+  color: #ffffff;
+  border-bottom: none;
+  padding: 1rem 1.5rem;
+}
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Body */
+.modal-body {
+  padding: 1.5rem;
+  background: #f9f9f9;
+}
+.modal-body label {
+  font-weight: 500;
+  color: #2E8B57; /* Verde mar */
+  margin-bottom: 6px;
+}
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  border-radius: 10px;
+  border: 1px solid #d3d3d3;
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: #4682B4;
+  box-shadow: 0 0 6px rgba(70, 130, 180, 0.5);
+  outline: none;
+}
+
+/* Slider (rango) */
+.modal-body input[type="range"] {
+  accent-color: #2E8B57;
+}
+
+/* Footer */
+.modal-footer {
+  border-top: none;
+  padding: 1rem 1.5rem;
+  background: #ffffff;
+}
+
+/* Botones */
+.modal-footer .btn-secondary {
+  background: #808080;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  transition: background 0.3s ease;
+}
+.modal-footer .btn-secondary:hover {
+  background: #666666;
+}
+
+.modal-footer .btn-primary {
+  background: #4682B4;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.modal-footer .btn-primary:hover {
+  background: #00008B;
+  transform: translateY(-2px);
+}

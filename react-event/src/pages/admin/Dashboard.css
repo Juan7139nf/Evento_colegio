@@ -1,0 +1,60 @@
+/* Contenedor principal */
+.dashboard-container {
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+/* Título principal */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4682B4; /* Azul acero */
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tarjetas de métricas */
+.dashboard-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+}
+.dashboard-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.dashboard-card .card-text {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Gráficas */
+.dashboard-chart {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+  padding: 1rem;
+  background: #fff;
+}
+.dashboard-chart .card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2E8B57; /* Verde mar */
+  margin-bottom: 1rem;
+}
+
+/* Spinner de carga */
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}

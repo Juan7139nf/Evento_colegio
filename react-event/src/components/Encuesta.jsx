@@ -2,6 +2,8 @@ import { set } from "date-fns";
 import { id, se } from "date-fns/locale";
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import "./Encuesta.css";
+
 
 export default function Encuesta({
   dataEncuesta,
