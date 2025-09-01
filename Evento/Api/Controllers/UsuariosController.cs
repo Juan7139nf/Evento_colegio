@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using Aplication.DTOs;
 
 namespace Api.Controllers
 {
@@ -23,7 +24,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Usuario>>> ObtenerTodos()
         {
-            var usuarios = await _usuarioUseCases.ObtenerUsuarios();
+            var usuarios = await _usuarioUseCases.ObtenerUsuariosConInscripciones();
             return Ok(usuarios);
         }
 
@@ -97,5 +98,20 @@ namespace Api.Controllers
                 });
             }
         }
+
+        [HttpPut("actualizar-rol")]
+        public async Task<IActionResult> ActualizarRol([FromBody] ActualizarRolDto dto)
+        {
+            try
+            {
+                var usuario = await _usuarioUseCases.ActualizarRol(dto);
+                return Ok(new { Mensaje = "Rol actualizado correctamente", Rol = usuario.Rol });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Mensaje = ex.Message });
+            }
+        }
+
     }
 }

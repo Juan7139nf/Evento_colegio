@@ -1,4 +1,5 @@
-﻿using Aplication.UsesCases;
+﻿using Aplication.DTOs;
+using Aplication.UsesCases;
 using Domain.Entities;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Inscripcion>>> ObtenerTodos()
+        public async Task<ActionResult<IEnumerable<InscripcionDto>>> ObtenerTodos()
         {
             var inscripciones = await _inscripcionUseCases.ObtenerInscripciones();
             return Ok(inscripciones);

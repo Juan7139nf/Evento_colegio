@@ -14,6 +14,7 @@ import CrearEvento from "./pages/admin/CrearEvento";
 import VerEvento from "./pages/admin/VerEvento";
 import EditarEvento from "./pages/admin/EditarEvento";
 import EventoShow from "./pages/EventoShow";
+import Inscripciones from "./pages/admin/Inscripciones";
 
 export default function MisRutas() {
   return (
@@ -29,6 +30,7 @@ export default function MisRutas() {
           <Route path="/inscriptos" element={<PageInscriptos />} />
 
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/inscripciones" element={<Inscripciones />} />
           <Route path="/admin/eventos" element={<Eventos />} />
           <Route path="/admin/eventos/:id" element={<VerEvento />} />
           <Route path="/admin/eventos/:id/editar" element={<EditarEvento />} />

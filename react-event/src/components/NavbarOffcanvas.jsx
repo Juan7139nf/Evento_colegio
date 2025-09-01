@@ -25,7 +25,7 @@ export default function NavbarOffcanvas() {
     >
       <Container fluid>
         <NavLink to={"/"} className={"navbar-brand"}>
-          Home
+          Eventos
         </NavLink>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <Navbar.Offcanvas
@@ -35,7 +35,7 @@ export default function NavbarOffcanvas() {
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-              Offcanvas
+              Eventos
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
@@ -62,6 +62,9 @@ export default function NavbarOffcanvas() {
                   <NavDropdown.Divider />
                   <NavLink to={"/admin/eventos"} className={"dropdown-item"}>
                     Eventos
+                  </NavLink>
+                  <NavLink to={"/admin/inscripciones"} className={"dropdown-item"}>
+                    Inscripciones
                   </NavLink>
                   <NavLink to={"/admin/usuarios"} className={"dropdown-item"}>
                     Usuarios

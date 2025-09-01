@@ -264,7 +264,7 @@ export default function EventoShow() {
         </div>
       )}
 
-      <div>{JSON.stringify(evento.encuesta, null, 2)}</div>
+      {/* <div>{JSON.stringify(evento.encuesta, null, 2)}</div> */}
       <Row className="mt-4">
         {evento.archivos?.map((archivo) => (
           <Col key={archivo.orden} xs={12} sm={6} lg={4} className="mb-4">

@@ -387,7 +387,7 @@ export default function CrearEvento() {
         <Container className="shadow p-3 mb-3">
           <Form.Label>Archivos (opcional)</Form.Label>
           {formData.archivos.map((a, index) => (
-            <div className="position-relative m-3">
+            <div className="position-relative m-3" key={index}>
               <Image src={a.url} className="w-100 rounded-3 object-fit-cover" style={{ maxHeight: "500px" }} />
               <ButtonGroup className="position-absolute start-0 top-0">
                 <Button variant="danger" onClick={() => eliminarArchivo(index)}>

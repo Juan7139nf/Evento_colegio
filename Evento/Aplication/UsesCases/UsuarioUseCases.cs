@@ -11,10 +11,40 @@ namespace Aplication.UsesCases
     public class UsuarioUseCases
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IInscripcionRepository _inscripcionRepository;
 
-        public UsuarioUseCases(IUsuarioRepository usuarioRepository)
+        public UsuarioUseCases(IUsuarioRepository usuarioRepository, IInscripcionRepository inscripcionRepository)
         {
             _usuarioRepository = usuarioRepository;
+            _inscripcionRepository = inscripcionRepository;
+        }
+        public async Task<IEnumerable<UsuarioConInscripcionesDto>> ObtenerUsuariosConInscripciones()
+        {
+            var usuarios = await _usuarioRepository.ObtenerList();
+            var inscripciones = await _inscripcionRepository.ObtenerList();
+
+            return usuarios.Select(u => new UsuarioConInscripcionesDto
+            {
+                Id = u.Id,
+                Nombre = u.Nombre,
+                Apellido = u.Apellido,
+                Correo = u.Correo,
+                Rol = u.Rol,
+                Completadas = inscripciones.Count(i => i.Id_Usuario == u.Id && i.Estado == "Completado"),
+                Pendientes = inscripciones.Count(i => i.Id_Usuario == u.Id && i.Estado == "Pendiente")
+            });
+        }
+
+        public async Task<Usuario> ActualizarRol(ActualizarRolDto dto)
+        {
+            var usuario = await _usuarioRepository.ObtenerId(dto.Id);
+            if (usuario == null)
+                throw new Exception("Usuario no encontrado");
+
+            usuario.Rol = dto.Rol;
+            await _usuarioRepository.Actualizar(usuario);
+
+            return usuario;
         }
 
         public async Task<IEnumerable<Usuario>> ObtenerUsuarios()
